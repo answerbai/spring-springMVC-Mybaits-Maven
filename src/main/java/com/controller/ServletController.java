@@ -15,14 +15,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.model.Student;
-import com.service.ServiceOffer;
+import com.po.Student;
+import com.service.StudentService;
 
 @Controller
 public class ServletController {
 	private Logger logger = Logger.getLogger(ServletController.class);
 	@Resource
-	private ServiceOffer serviceOffer;
+	private StudentService studentService;
 
 	@RequestMapping("/queryOne")
 	public String queryOne(HttpServletRequest request, Model model) {
@@ -33,7 +33,7 @@ public class ServletController {
 			return "error";
 		}
 		int id = Integer.valueOf(request.getParameter("id"));
-		Student s = serviceOffer.queryOne(id);
+		Student s = studentService.queryOne(id);
 		if (s != null) {
 			model.addAttribute("student", s);
 			return "showStudentOne";
@@ -47,7 +47,7 @@ public class ServletController {
 
 	@RequestMapping("/queryList")
 	public String queryList(HttpServletRequest request, Model model) {
-		List<Student> s = serviceOffer.queryList();
+		List<Student> s = studentService.queryList();
 		if (s.size() > 0) {
 			model.addAttribute("student", s);
 			return "showStudentList";
@@ -88,19 +88,19 @@ public class ServletController {
 			return "error";
 		}
 		try {
-			serviceOffer.insertInfo(s);
+			studentService.insertInfo(s);
 		} catch (Exception e) {
 			String message = "插入数据出错！";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";
 		}
-		Student student = serviceOffer.queryOne(serviceOffer.queryId());
+		Student student = studentService.queryOne(studentService.queryId());
 		if (s != null) {
 			model.addAttribute("student", student);
 			return "showStudentOne";
 		} else {
-			String message = "数据库中没有编号为‘" + serviceOffer.queryId() + "'的同学的信息！";
+			String message = "数据库中没有编号为‘" + studentService.queryId() + "'的同学的信息！";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";

@@ -1,6 +1,9 @@
-package com.model;
+package com.po;
 
-public class Student {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Student implements Serializable {
 	private int id;
 	private String name;
 	private int age;

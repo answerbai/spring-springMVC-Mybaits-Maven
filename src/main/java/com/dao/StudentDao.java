@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
-import com.model.Student;
+import com.po.Student;
 
 @Component("studentDao")
 public interface StudentDao {
