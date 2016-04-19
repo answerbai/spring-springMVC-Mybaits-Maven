@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.po.Student;
 import com.service.StudentService;
-
 @Controller
 public class ServletController {
 	private Logger logger = Logger.getLogger(ServletController.class);
