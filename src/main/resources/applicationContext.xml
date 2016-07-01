@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans    
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd    
+                        http://www.springframework.org/schema/context    
+                        http://www.springframework.org/schema/context/spring-context-3.1.xsd    
+                        http://www.springframework.org/schema/mvc    
+                        http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
+         <!-- 自动扫描需要用到自动注解的包 -->
+     <context:component-scan base-package="com" />                          
+	<!--*************************	以下为quartz定时调度相关配置	 ***************-->
+	<import resource="applicationContext-quartz.xml"/>
+	<!--*************************	以下为mybatis相关配置	 ***************-->
+	<import resource="spring-mybatis.xml"/>
+	<!-- 应用初始化：log4j, collector, redis等 -->
+	<bean name="initServlet" class="com.controller.InitServlet" init-method="init"/>
+	<!-- 应用初始化：启动kafka消费者 -->
+	<bean name="kafkaInit" class="com.common.kafka.KafkaConsumer" init-method="init"/>	
+
+</beans>

@@ -10,21 +10,27 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.common.constant.Constant;
+import com.common.kafka.KafkaProducer;
 import com.po.Student;
 import com.service.StudentService;
+import com.util.LogUtil;
+
 @Controller
 public class ServletController {
-	private Logger logger = Logger.getLogger(ServletController.class);
+	private Logger logger = LogUtil.getLog();
 	@Resource
 	private StudentService studentService;
 
 	@RequestMapping("/queryOne")
 	public String queryOne(HttpServletRequest request, Model model) {
+		KafkaProducer.produce(Constant.PART_0, "1");
+		logger.info("请求queryOne");
 		if (null == request.getParameter("id") || "".equals(request.getParameter("id"))) {
 			String message = "未传入查询的ID号";
 			logger.info(message);
@@ -46,6 +52,7 @@ public class ServletController {
 
 	@RequestMapping("/queryList")
 	public String queryList(HttpServletRequest request, Model model) {
+		KafkaProducer.produce(Constant.PART_1, "1");
 		List<Student> s = studentService.queryList();
 		if (s.size() > 0) {
 			model.addAttribute("student", s);
@@ -118,9 +125,9 @@ public class ServletController {
 		Cookie[] c = request.getCookies();
 		for (Cookie cc : c) {
 			if ("dy".equals(cc.getName())) {
-				System.out.println("CookieDomain="+cc.getDomain() + ",Cookie存放的数据是：(key=" + cc.getName() + ",value=" +URLDecoder.decode(cc.getValue(),"utf-8") + ")");
-			}//end--if 
-		}//end--for
+				System.out.println("CookieDomain=" + cc.getDomain() + ",Cookie存放的数据是：(key=" + cc.getName() + ",value=" + URLDecoder.decode(cc.getValue(), "utf-8") + ")");
+			} // end--if
+		} // end--for
 		return "error";
 	}
 }
