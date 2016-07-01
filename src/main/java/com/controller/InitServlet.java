@@ -1,8 +1,13 @@
 package com.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.common.collector.Ec;
+import com.redis.Redis;
 import com.util.PropertiesUtil;
 import com.util.SmsSenderUtil;
+
+import redis.clients.jedis.ShardedJedis;
 
 /**
  * 应用初始化
@@ -11,10 +16,10 @@ import com.util.SmsSenderUtil;
  * @author 
  */
 public class InitServlet {
-    
+    @Autowired
+    private Redis redis;
     void init() {
         String baseDir = System.getProperty("search.root") + "WEB-INF/classes/";
-        
         // 初始化ad-message-collector
 //        try {
 //            Collector.initCollector(baseDir + "collector-conf.properties");

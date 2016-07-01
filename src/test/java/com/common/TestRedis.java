@@ -8,16 +8,16 @@ import java.util.Map;
 import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import com.util.LogUtil;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class TestRedis {
-	private Logger log = Logger.getLogger(TestRedis.class);
+	private Logger log = LogUtil.getLog();
 	JedisPool pool;
 	Jedis jedis;
-
 	@Before
 	public void setUp() {
 		// 此处IP是本机IP地址
@@ -31,7 +31,7 @@ public class TestRedis {
         config.setMaxWait(1000 * 100);  
         //在borrow一个jedis实例时，是否提前进行validate操作；如果为true，则得到的jedis实例均是可用的；  
         config.setTestOnBorrow(true);  
-		pool = new JedisPool(config, "10.155.9.39", 6379);
+		pool = new JedisPool(config, "127.0.0.1", 6379);
 //		pool.returnResource(jedis);
 		jedis = pool.getResource();
 		if(jedis==null){
@@ -48,7 +48,7 @@ public class TestRedis {
 	@Test
 	public void testSetKey() {
 		System.out.println(jedis.set("dy","dingyi"));
-		System.out.println(jedis.set("xm","xiaoming"));
+		System.out.println(jedis.set("xm","小明"));
 		
 	}
 	/**
@@ -60,7 +60,7 @@ public class TestRedis {
 		jedis.set("name", "minxr");// 向key-->name中放入了value-->minxr
 		System.out.println(jedis.get("name"));// 执行结果：minxr
 		// -----修改数据-----------
-		// 1、在原来基础上修改
+		// 1、在原来基础上添加
 		jedis.append("name", "jarorwar"); // 很直观，类似map 将jarorwar
 											// append到已经有的value之后
 		System.out.println(jedis.get("name"));// 执行结果:minxrjarorwar

@@ -10,7 +10,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,21 +19,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.common.constant.Constant;
 import com.common.kafka.KafkaProducer;
 import com.po.Student;
+import com.redis.Redis;
 import com.service.StudentService;
 import com.util.LogUtil;
+
+import redis.clients.jedis.ShardedJedis;
 
 @Controller
 public class ServletController {
 	private Logger logger = LogUtil.getLog();
 	@Resource
 	private StudentService studentService;
+	@Autowired
+	private Redis redis;
 
 	@RequestMapping("/queryOne")
 	public String queryOne(HttpServletRequest request, Model model) {
+		String message = "";
 		KafkaProducer.produce(Constant.PART_0, "1");
-		logger.info("请求queryOne");
+		ShardedJedis jedis = redis.getRedis();
+		if (jedis.get("servelt") != null) {
+			jedis.set("servelt", String.valueOf(Integer.parseInt(jedis.get("servelt")) + 1));
+			logger.info("redis统计下请求queryOne:" + jedis.get("servelt") + "次");
+		} else {
+			jedis.set("servelt", "1");
+		}
+		redis.close(jedis);
 		if (null == request.getParameter("id") || "".equals(request.getParameter("id"))) {
-			String message = "未传入查询的ID号";
+			message = "未传入查询的ID号";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";
@@ -43,7 +57,7 @@ public class ServletController {
 			model.addAttribute("student", s);
 			return "showStudentOne";
 		} else {
-			String message = "数据库中没有编号为‘" + id + "'的同学的信息！";
+			message = "数据库中没有编号为‘" + id + "'的同学的信息！";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";
@@ -65,13 +79,13 @@ public class ServletController {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	@RequestMapping("/insetInfo")
 	public String insetInfo(HttpServletRequest request, Model model) {
 		Student s = new Student();
+		String message;
 		String name = request.getParameter("name");
 		if (null == name || "".equals(name)) {
-			String message = "未传入姓名";
+			message = "未传入姓名";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";
@@ -80,7 +94,7 @@ public class ServletController {
 		String temp = "^\\d+";
 		String age = request.getParameter("age");
 		if (null == age || "".equals(age)) {
-			String message = "未传入年龄";
+			message = "未传入年龄";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";
@@ -88,25 +102,18 @@ public class ServletController {
 		if (age.matches(temp)) {
 			s.setAge(Integer.valueOf(request.getParameter("age")));
 		} else {
-			String message = "传入的年龄不是纯数字！传入的值=" + request.getParameter("age");
+			message = "传入的年龄不是纯数字！传入的值=" + request.getParameter("age");
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";
 		}
 		try {
 			studentService.insertInfo(s);
-		} catch (Exception e) {
-			String message = "插入数据出错！";
-			logger.info(message);
-			model.addAttribute("message", message);
-			return "error";
-		}
-		Student student = studentService.queryOne(studentService.queryId());
-		if (s != null) {
+			Student student = studentService.queryOne(studentService.queryId());
 			model.addAttribute("student", student);
 			return "showStudentOne";
-		} else {
-			String message = "数据库中没有编号为‘" + studentService.queryId() + "'的同学的信息！";
+		} catch (Exception e) {
+			message = "插入数据出错！";
 			logger.info(message);
 			model.addAttribute("message", message);
 			return "error";

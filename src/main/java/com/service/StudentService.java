@@ -12,6 +12,11 @@ import com.po.Student;
 public class StudentService {
 	@Autowired
 	private StudentDao studentDao;
+	private static int count = 0;
+	public StudentService() {
+		super();
+		System.out.println("被创建第" + (++count) + "次");
+	}
 
 	public Student queryOne(int id) {
 		return studentDao.queryOneById(id);

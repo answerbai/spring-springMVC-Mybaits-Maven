@@ -1,6 +1,6 @@
 package com.common.task;
 
-import org.slf4j.Logger;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.common.collector.Ec;
@@ -14,7 +14,7 @@ import com.util.LogUtil;
  */
 @Component
 public class TimeTask{
-	private final static Logger logger = LogUtil.getLog();
+	private Logger logger = LogUtil.getLog();
 
 	public void runTask() {
 		try {

@@ -6,9 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.log4j.Logger;
 
 /**
  * 发送短信。使用udp发送到公司的短信发送服务器。<br>
@@ -20,7 +18,7 @@ import org.slf4j.LoggerFactory;
  */
 public class SmsSenderUtil {
 	
-	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	private Logger logger = LogUtil.getLog();
 	
 	private static final int CONTENT_MAX_LENTH = 130;
 	

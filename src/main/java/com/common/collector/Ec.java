@@ -12,7 +12,6 @@ import org.apache.commons.logging.LogFactory;
  * @author 
  */
 public class Ec {
-	private static final Log logger =  LogFactory.getLog("STDOUTLOG");
 	public static boolean debug = false;
 	/**
 	 * 默认host name获取本机第一块网卡ip地址
