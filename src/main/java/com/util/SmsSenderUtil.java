@@ -6,7 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
 /**
  * 发送短信。使用udp发送到公司的短信发送服务器。<br>

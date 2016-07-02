@@ -5,9 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+
 import com.util.LogUtil;
 
 import redis.clients.jedis.Jedis;

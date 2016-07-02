@@ -1,6 +1,6 @@
 package com.common.task;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.common.collector.Ec;
