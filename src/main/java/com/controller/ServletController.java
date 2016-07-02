@@ -43,8 +43,10 @@ public class ServletController {
 		try {
 			String temp = jedis.get("servelt");
 			if (temp != null) {
-				jedis.setex("servelt", Integer.parseInt(jedis.ttl("servelt").toString()), String.valueOf(Integer.parseInt(temp) + 1));
-				logger.info("redis统计下请求queryOne:" + jedis.get("servelt") + "次");
+				int time = Integer.parseInt(jedis.ttl("servelt").toString());
+				temp = String.valueOf(Integer.parseInt(temp) + 1);
+				jedis.setex("servelt", time, temp);
+				logger.info("redis统计下请求queryOne:" + temp + "次");
 			} else {
 				jedis.setex("servelt", 10, "1");
 				logger.info("redis统计下请求queryOne:" + jedis.get("servelt") + "次");
