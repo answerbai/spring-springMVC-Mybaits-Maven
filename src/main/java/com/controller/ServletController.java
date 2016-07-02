@@ -28,6 +28,7 @@ import redis.clients.jedis.ShardedJedis;
 @Controller
 public class ServletController {
 	private Logger logger = LogUtil.getLog();
+
 	@Resource
 	private StudentService studentService;
 	@Autowired
@@ -37,14 +38,21 @@ public class ServletController {
 	public String queryOne(HttpServletRequest request, Model model) {
 		String message = "";
 		KafkaProducer.produce(Constant.PART_0, "1");
+
 		ShardedJedis jedis = redis.getRedis();
-		if (jedis.get("servelt") != null) {
-			jedis.set("servelt", String.valueOf(Integer.parseInt(jedis.get("servelt")) + 1));
-			logger.info("redis统计下请求queryOne:" + jedis.get("servelt") + "次");
-		} else {
-			jedis.set("servelt", "1");
+		try {
+			String temp = jedis.get("servelt");
+			if (temp != null) {
+				jedis.setex("servelt", Integer.parseInt(jedis.ttl("servelt").toString()), String.valueOf(Integer.parseInt(temp) + 1));
+				logger.info("redis统计下请求queryOne:" + jedis.get("servelt") + "次");
+			} else {
+				jedis.setex("servelt", 10, "1");
+				logger.info("redis统计下请求queryOne:" + jedis.get("servelt") + "次");
+			}
+			redis.close(jedis);
+		} catch (Exception e) {
+			logger.info("redis超时");
 		}
-		redis.close(jedis);
 		if (null == request.getParameter("id") || "".equals(request.getParameter("id"))) {
 			message = "未传入查询的ID号";
 			logger.info(message);

@@ -20,6 +20,10 @@ public class InitServlet {
     private Redis redis;
     void init() {
         String baseDir = System.getProperty("search.root") + "WEB-INF/classes/";
+        
+        ShardedJedis jedis = redis.getRedis();
+        jedis.del("servelt");
+        redis.close(jedis);
         // 初始化ad-message-collector
 //        try {
 //            Collector.initCollector(baseDir + "collector-conf.properties");
