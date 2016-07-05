@@ -1,5 +1,34 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<title>导航页</title>
+<script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
+<script type="text/javascript" src="/js/jquery.form.js"></script>
+</head>
+<script>
+	$(function() {
+		$(".request1").click(function() {
+			var value = $(".common").attr("value");
+			$("#value1").val(value);
+			$("#fm1").submit();
+		});
+
+		$("#request2").click(function() {
+			$("#fm2").ajaxSubmit({
+				url : "/ajaxRequest",
+				type : "post",
+				dataType : "text",
+				success : function(json) {
+					//成功后刷新
+					var obj = new Function("return" + json)();//转换后的JSON对象
+					$("#value2").val(obj.name);
+					//window.location.reload(true);
+				}
+			});
+		});
+	});
+</script>
 <body>
 	<form action="${pageContext.request.contextPath}/insetInfo" method="post">
 		姓名：<input type="text" id="name" name="name"><br> 
@@ -19,5 +48,18 @@
 	<form action="${pageContext.request.contextPath}/requestCookie" method="post">
 		保存cookie数据：<input type="submit" value="保存cookie">
 	</form>
+	<br>
+	<form id="fm1" action="${pageContext.request.contextPath}/commonRequest" method="post">
+		普通的js请求：<input type="text" class= "common" name="common" value="普通的js请求"/>
+		<input type="text" id="value1" name="value1" value=""/>
+		<input type="button" class= "request1" value="请求">
+	</form>
+	<br>
+	<form id="fm2">
+		Ajax的请求：<input type="text" class= "common2" name="common2" value="Ajax的请求"/>
+		<input type="text" id="value2" name="value2" value=""/>
+		<input type="button" id= "request2" value="请求">
+	</form>
+	<br>
 </body>
 </html>
