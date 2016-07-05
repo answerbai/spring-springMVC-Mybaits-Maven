@@ -9,6 +9,11 @@
 	    <servlet-name>default</servlet-name>
 	    <url-pattern>/js/*</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>/favicon.ico</url-pattern>
+	</servlet-mapping>
+	
 	<!-- Spring的配置文件 -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
@@ -36,7 +41,17 @@
 	<listener>
 		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
 	</listener>
-
+	
+	<!-- druid servlet -->
+    <servlet>
+		<servlet-name>DruidStatView</servlet-name>
+		<servlet-class>com.alibaba.druid.support.http.StatViewServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DruidStatView</servlet-name>
+		<url-pattern>/druid/*</url-pattern>
+	</servlet-mapping> 
+	
 	<!-- Spring MVC servlet -->
 	<servlet>
 		<servlet-name>SpringMVC</servlet-name>
