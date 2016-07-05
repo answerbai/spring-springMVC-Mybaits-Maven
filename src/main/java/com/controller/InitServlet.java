@@ -22,7 +22,9 @@ public class InitServlet {
         String baseDir = System.getProperty("search.root") + "WEB-INF/classes/";
         
         ShardedJedis jedis = redis.getRedis();
-        jedis.del("servelt");
+        if(jedis.get("servelt")!=null){
+        	 jedis.del("servelt");
+        }
         redis.close(jedis);
         // 初始化ad-message-collector
 //        try {

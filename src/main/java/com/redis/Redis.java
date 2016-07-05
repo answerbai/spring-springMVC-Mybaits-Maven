@@ -9,7 +9,7 @@ import redis.clients.jedis.ShardedJedisPool;
 @Component
 public class Redis {
 	@Autowired
-	private static ShardedJedisPool shardedJedisPool;
+	private ShardedJedisPool shardedJedisPool;
 
 	public ShardedJedis getRedis() {
 		return shardedJedisPool.getResource();// 获取jedis实例
