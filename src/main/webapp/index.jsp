@@ -15,12 +15,18 @@
 		});
 
 		$("#request2").click(function() {
-			$("#fm2").ajaxSubmit({
+			var type = $(".value2").attr("type");//获取当前元素的第一个属性值
+			var value = $(".value2").val();//获取当前元素的当前值
+			alert(value);
+			alert(type);
+			$("#fm2").ajaxSubmit({				
 				url : "/ajaxRequest",
 				type : "post",
+				data: {"common2":$(".common2").attr("value"),"value2":$(".value2").val()},
 				dataType : "text",
 				success : function(json) {
 					//成功后刷新
+
 					var obj = new Function("return" + json)();//转换后的JSON对象
 					$("#value2").val(obj.name);
 					//window.location.reload(true);
@@ -52,13 +58,14 @@
 	<form id="fm1" action="${pageContext.request.contextPath}/commonRequest" method="post">
 		普通的js请求：<input type="text" class= "common" name="common" value="普通的js请求"/>
 		<input type="text" id="value1" name="value1" value=""/>
-		<input type="button" class= "request1" value="请求">
+		<input type="button" class= "request1" value="请求"/>
 	</form>
 	<br>
-	<form id="fm2">
-		Ajax的请求：<input type="text" class= "common2" name="common2" value="Ajax的请求"/>
-		<input type="text" id="value2" name="value2" value=""/>
-		<input type="button" id= "request2" value="请求">
+	<form id="fm2" method="post">
+		Ajax的请求：
+		<input type="text" d="common2" class= "common2" name="common2" value="Ajax的请求"/>
+		<input type="text" id="value2" class= "value2" name="value2" value=""/>
+		<input type="button" id= "request2" value="请求"/>
 	</form>
 	<br>
 </body>

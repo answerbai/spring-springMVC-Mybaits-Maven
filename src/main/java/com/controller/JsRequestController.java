@@ -38,7 +38,6 @@ public class JsRequestController {
 		String value = request.getParameter("value2");
 		logger.info("common2=" + common2);
 		logger.info("value=" + value);
-       
 		Student student=new Student();
         student.setId(74);
         student.setName("丁晨星宇");
