@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.alibaba.fastjson.JSON;
+import com.po.Message;
 import com.po.Student;
 import com.service.StudentService;
 import com.util.HttpServletHelper;
@@ -42,6 +43,11 @@ public class JsRequestController {
         student.setId(74);
         student.setName("丁晨星宇");
 		student.setAge(25);
+		
+		Message m=new Message();
+		m.setPhone("123456789");
+		m.setAddress("北京市海淀区中钢大厦");
+		student.setMessage(m);
 		
 		String str = JSON.toJSONString(student);
 		logger.info(str);

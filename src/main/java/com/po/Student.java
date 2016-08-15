@@ -7,6 +7,7 @@ public class Student implements Serializable {
 	private int id;
 	private String name;
 	private int age;
+	private Message message;
 
 	public int getId() {
 		return id;
@@ -30,6 +31,14 @@ public class Student implements Serializable {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+	public Message getMessage() {
+		return message;
+	}
+
+	public void setMessage(Message message) {
+		this.message = message;
 	}
 
 	@Override
