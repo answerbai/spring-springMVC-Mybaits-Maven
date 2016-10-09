@@ -1,10 +1,14 @@
 package com.controller;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
@@ -22,6 +26,7 @@ import com.common.kafka.KafkaProducer;
 import com.po.Student;
 import com.redis.Redis;
 import com.service.StudentService;
+import com.util.IOUtil;
 import com.util.LogUtil;
 
 import redis.clients.jedis.ShardedJedis;
@@ -78,11 +83,41 @@ public class ServletController {
 	@RequestMapping("/queryList")
 	public String queryList(HttpServletRequest request, Model model) {
 		KafkaProducer.produce(Constant.PART_1, "1");
-		Date date=new Date();
+		Date date = new Date();
 		List<Student> s = studentService.queryList();
+		try {
+			String v= request.getParameter("value");
+			System.out.println("原始的request内容:" + request.getInputStream()+";value="+request.getParameter("value"));
+			System.out.println(request.getParameterNames());
+			Map map=request.getParameterMap();
+			Set keSet=map.entrySet();  
+			
+			System.out.println(map.values());
+			
+		    for(Iterator itr=keSet.iterator();itr.hasNext();){  
+		        Map.Entry me=(Map.Entry)itr.next();  
+		        Object ok=me.getKey();  
+		        Object ov=map.get(ok); 
+		        String[] value=new String[1];  
+		        if(ov instanceof String[]){  
+		            value=(String[])ov;  
+		        }else{  
+		            value[0]=ov.toString();  
+		        }  
+		  
+		        for(int k=0;k<value.length;k++){  
+		            System.out.println(ok+"="+value[k]);  
+		        } 
+			}
+			String jsonStr = getRequestJson(request);
+			System.out.println("转换后的request内容:" + jsonStr);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		if (s.size() > 0) {
 			model.addAttribute("student", s);
-			System.out.println("消耗时间2="+((new Date()).getTime()-date.getTime()));
+			System.out.println("消耗时间2=" + ((new Date()).getTime() - date.getTime()));
 			return "showStudentList";
 		} else {
 			String message = "数据库中没有同学的信息！";
@@ -150,6 +185,15 @@ public class ServletController {
 		} // end--for
 		return "error";
 	}
-	
-	
+
+	protected String getRequestJson(HttpServletRequest request) throws IOException {
+		try {
+			int length = request.getContentLength();
+			String result = IOUtil.toString(request.getInputStream(), request.getCharacterEncoding(), length + 1);
+			return result;
+		} catch (IOException e) {
+			throw e;
+		}
+	}
+
 }

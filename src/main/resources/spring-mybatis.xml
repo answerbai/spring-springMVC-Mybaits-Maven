@@ -39,9 +39,9 @@
 		<property name="maxWait" value="${jdbc.maxWait}" />
 
 		<!-- 开启 druid监控日志 -->
-		<property name="timeBetweenLogStatsMillis" value="30000" />
+		<property name="timeBetweenLogStatsMillis" value="6000000" />
 
-		<property name="timeBetweenEvictionRunsMillis" value="3000" />
+		<property name="timeBetweenEvictionRunsMillis" value="600000" />
 		<property name="minEvictableIdleTimeMillis" value="300000" />
 		<property name="validationQuery" value="INSERT 'x'" />
 		<property name="testWhileIdle" value="true" />

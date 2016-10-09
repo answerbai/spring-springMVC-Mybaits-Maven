@@ -49,7 +49,9 @@
 	<br>
 	<form action="${pageContext.request.contextPath}/queryList" method="post">
 		查询全部信息：<input type="submit" value="查询">
+		<input type="hidden" name="value" id="value" value="<%=request.getParameter("v")%>"/>
 	</form>
+	<a href="${pageContext.request.contextPath}/queryList?value=123&key=888">测试反射性xss防止注入脚本</a>
 	<br>
 	<form action="${pageContext.request.contextPath}/requestCookie" method="post">
 		保存cookie数据：<input type="submit" value="保存cookie">
