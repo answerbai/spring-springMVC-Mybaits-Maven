@@ -14,7 +14,7 @@
 %>  
 <script>  
     var scriptVar=<%=param%>;  
-    writelnToDom("original: " + scriptVar);   
+    writelnToDom(0);   
 </script>  
 <body>  
 </body>  
