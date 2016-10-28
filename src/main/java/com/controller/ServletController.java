@@ -1,6 +1,7 @@
 package com.controller;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -8,9 +9,12 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.Resource;
+import javax.mail.Session;
+import javax.mail.Store;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -82,6 +86,21 @@ public class ServletController {
 
 	@RequestMapping("/queryList")
 	public String queryList(HttpServletRequest request, Model model) {
+		 String ip = request.getHeader("x-forwarded-for");
+		 System.out.println("x-forwarded-for:"+ip);
+		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+		        ip = request.getHeader("Proxy-Client-IP");
+		        System.out.println("Proxy-Client-IP:"+ip);
+		    }
+		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+		        ip = request.getHeader("WL-Proxy-Client-IP");
+		        System.out.println("WL-Proxy-Client-IP:"+ip);
+		    }
+		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+		        ip = request.getRemoteAddr();
+		        System.out.println("unknown:"+ip);
+		    }
+		System.out.println(ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip);
 		KafkaProducer.produce(Constant.PART_1, "1");
 		Date date = new Date();
 		List<Student> s = studentService.queryList();
@@ -185,7 +204,29 @@ public class ServletController {
 		} // end--for
 		return "error";
 	}
-
+	@RequestMapping("commonLogin.do")
+	public void login(HttpServletRequest request, HttpServletResponse response) {
+		logger.info("enter into center commonLogin.do!");
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String host = "mail.youku.com";
+		logger.info("username="+username+";password="+password);
+		PrintWriter out =null;
+		try {
+			out=response.getWriter();
+			if (username.indexOf("@") > 0) {
+				username = username.substring(0, username.indexOf("@"));
+			}
+			Properties props = new Properties();// Get session
+			Session session1 = Session.getDefaultInstance(props, null);
+			Store store = session1.getStore("pop3");
+			store.connect(host, username, password);
+			store.close();
+			out.print("success");
+		} catch (Exception e) {
+			out.print("fail");
+		}
+	}
 	protected String getRequestJson(HttpServletRequest request) throws IOException {
 		try {
 			int length = request.getContentLength();
