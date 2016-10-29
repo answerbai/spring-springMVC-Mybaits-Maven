@@ -6,6 +6,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -86,6 +87,14 @@ public class ServletController {
 
 	@RequestMapping("/queryList")
 	public String queryList(HttpServletRequest request, Model model) {
+		String headerName = "";
+	
+		Enumeration enu = request.getHeaderNames();//取得全部头信息
+		while (enu.hasMoreElements()) {//以此取出头信息
+			headerName = (String) enu.nextElement();
+			System.out.println(headerName+":"+request.getHeader(headerName));
+		}
+		 System.out.println("==================================");
 		 String ip = request.getHeader("x-forwarded-for");
 		 System.out.println("x-forwarded-for:"+ip);
 		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
@@ -101,6 +110,7 @@ public class ServletController {
 		        System.out.println("unknown:"+ip);
 		    }
 		System.out.println(ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip);
+		System.out.println("++++++++++++++++++++++++++++++++++++++++=");
 		KafkaProducer.produce(Constant.PART_1, "1");
 		Date date = new Date();
 		List<Student> s = studentService.queryList();
@@ -236,5 +246,31 @@ public class ServletController {
 			throw e;
 		}
 	}
-
+	@RequestMapping("/http")
+	public void queryHttp(HttpServletRequest request) {
+		String headerName = "";
+	
+		Enumeration enu = request.getHeaderNames();//取得全部头信息
+		while (enu.hasMoreElements()) {//以此取出头信息
+			headerName = (String) enu.nextElement();
+			System.out.println(headerName+":"+request.getHeader(headerName));
+		}
+		 System.out.println("==================================");
+		 String ip = request.getHeader("x-forwarded-for");
+		 System.out.println("x-forwarded-for:"+ip);
+		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+		        ip = request.getHeader("Proxy-Client-IP");
+		        System.out.println("Proxy-Client-IP:"+ip);
+		    }
+		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+		        ip = request.getHeader("WL-Proxy-Client-IP");
+		        System.out.println("WL-Proxy-Client-IP:"+ip);
+		    }
+		    if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)){
+		        ip = request.getRemoteAddr();
+		        System.out.println("unknown:"+ip);
+		    }
+		System.out.println(ip.equals("0:0:0:0:0:0:0:1")?"127.0.0.1":ip);
+		System.out.println("++++++++++++++++++++++++++++++++++++++++=");
+	}
 }
