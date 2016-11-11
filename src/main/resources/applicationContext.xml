@@ -47,6 +47,6 @@
 	<bean name="initServlet" class="com.controller.InitServlet" init-method="init" />
 
 	<!-- 应用初始化：启动kafka消费者 -->
-<!-- 	<bean name="kafkaInit" class="com.common.kafka.KafkaConsumer" init-method="init" /> -->
+	<bean name="kafkaInit" class="com.common.kafka.KafkaConsumer" init-method="init" />
 	
 </beans>

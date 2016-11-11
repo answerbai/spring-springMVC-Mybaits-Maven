@@ -39,7 +39,7 @@
 		<property name="maxWait" value="${jdbc.maxWait}" />
 
 		<!-- 开启 druid监控日志 -->
-		<property name="timeBetweenLogStatsMillis" value="6000000" />
+		<property name="timeBetweenLogStatsMillis" value="1000" />
 
 		<property name="timeBetweenEvictionRunsMillis" value="600000" />
 		<property name="minEvictableIdleTimeMillis" value="300000" />
@@ -48,8 +48,7 @@
 		<property name="testOnBorrow" value="false" />
 		<property name="testOnReturn" value="false" />
 		<property name="poolPreparedStatements" value="true" />
-		<property name="maxPoolPreparedStatementPerConnectionSize"
-			value="20" />
+		<property name="maxPoolPreparedStatementPerConnectionSize" value="20" />
 	</bean>
 
 
