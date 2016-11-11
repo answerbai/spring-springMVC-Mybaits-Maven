@@ -39,7 +39,7 @@
 		<property name="maxWait" value="${jdbc.maxWait}" />
 
 		<!-- 开启 druid监控日志，且时间间隔是10s打印一次sql -->
-		<property name="timeBetweenLogStatsMillis" value="10000" />
+		<property name="timeBetweenLogStatsMillis" value="6000000" />
 
 		<property name="timeBetweenEvictionRunsMillis" value="600000" />
 		<property name="minEvictableIdleTimeMillis" value="300000" />
