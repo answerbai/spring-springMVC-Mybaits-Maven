@@ -40,7 +40,6 @@
 	});
 </script>
 <body>
-	<br>
 	<%
 // 	   HttpClient.requestGet("http://dyctdy.oicp.net/http"); 
 		String headerName = "";
@@ -57,7 +56,6 @@
 			System.out.println(headerName+":"+request.getHeader(headerName));
 %>
 <%-- headers:<%=headerName+":"+request.getHeader(headerName) %> --%>
-<br>
 <%
 		}
 		System.out.println("====================================");
