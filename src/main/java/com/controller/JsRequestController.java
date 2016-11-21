@@ -1,5 +1,8 @@
 package com.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.alibaba.fastjson.JSON;
 import com.po.Message;
 import com.po.Student;
+import com.po.Teacher;
 import com.service.StudentService;
 import com.util.HttpServletHelper;
 import com.util.LogUtil;
@@ -59,4 +63,67 @@ public class JsRequestController {
 			e.printStackTrace();
 		}
 	}
+	@RequestMapping("/fastJson")
+	public String testFastJson(HttpServletRequest request, HttpServletResponse response, Model model) {
+		Map<Integer,Teacher> map=new HashMap<>();
+		Map<Integer,Student> map2=new HashMap<>();
+		
+		Student student=new Student();
+        student.setId(74);
+        student.setName("学生1");
+		student.setAge(25);	
+		map2.put(student.getId(), student);
+		Message m=new Message();
+		m.setPhone("123456789");
+		m.setAddress("北京市");
+		student.setMessage(m);
+		
+		student=new Student();
+        student.setId(70);
+        student.setName("学生2");
+		student.setAge(25);
+		m=new Message();
+		m.setPhone("2222222");
+		m.setAddress("北京市海淀区");
+		student.setMessage(m);
+		map2.put(student.getId(), student);		
+		Teacher t1=new Teacher(1,"老师1",map2);
+		map.put(t1.getId(), t1);
+		
+		map2=new HashMap<>();
+		student=new Student();
+        student.setId(4);
+        student.setName("学生4");
+		student.setAge(20);	
+		m=new Message();
+		m.setPhone("0000000009");
+		m.setAddress("北京市海淀区中钢");
+		student.setMessage(m);
+		map2.put(student.getId(), student);
+		student=new Student();
+        student.setId(2);
+        student.setName("学生2");
+		student.setAge(15);
+		m=new Message();
+		m.setPhone("7777777777777");
+		m.setAddress("北京市海淀区中钢大厦");
+		student.setMessage(m);
+		map2.put(student.getId(), student);	
+		student=new Student();
+        student.setId(1);
+        student.setName("学生1");
+		student.setAge(10);
+		m=new Message();
+		m.setPhone("123456789");
+		m.setAddress("北京市昌平区");
+		student.setMessage(m);
+		map2.put(student.getId(), student);
+		t1=new Teacher(3,"老师3",map2);
+		map.put(t1.getId(), t1);
+
+		String str = JSON.toJSONString(map);
+		model.addAttribute("str", str);
+		return "fastJson";
+	}
+	
 }

@@ -142,5 +142,9 @@
 			id="request2" value="请求" />
 	</form>
 	<br>
+	<form action="${pageContext.request.contextPath}/fastJson"method="post">
+		查询(结果返回json)<input type="submit" value="查询">
+	</form>
+	<br>
 </body>
 </html>
