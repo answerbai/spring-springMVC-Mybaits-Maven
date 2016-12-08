@@ -6,6 +6,7 @@
 <title>导航页</title>
 <script type="text/javascript" src="/js/jquery-1.9.1.js"></script>
 <script type="text/javascript" src="/js/jquery.form.js"></script>
+<script type="text/javascript" src="/js/login.js"></script>
 </head>
 <script>
 	$(function() {
@@ -14,7 +15,7 @@
 			$("#value1").val(value);
 			$("#fm1").submit();
 		});
-
+		
 		$("#request2").click(function() {
 			var type = $(".value2").attr("type");//获取当前元素的第一个属性值
 			var value = $(".value2").val();//获取当前元素的当前值
@@ -53,39 +54,44 @@
 		Enumeration enu = request.getHeaderNames();//取得全部头信息
 		while (enu.hasMoreElements()) {//以此取出头信息
 			headerName = (String) enu.nextElement();
-			System.out.println(headerName+":"+request.getHeader(headerName));
+// 			System.out.println(headerName+":"+request.getHeader(headerName));
 %>
 <%-- headers:<%=headerName+":"+request.getHeader(headerName) %> --%>
 <%
 		}
-		System.out.println("====================================");
+// 		System.out.println("====================================");
 		String ip = request.getHeader("X-Forwarded-For");
 		result1 = "x-forwarded-for:" + ip;
-		System.out.println(result1);
+// 		System.out.println(result1);
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("HTTP_X_FORWARDED_FOR");
 			result2 = "HTTP_X_FORWARDED_FOR:" + ip;
-			System.out.println(result2);
+// 			System.out.println(result2);
 		}
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("Proxy-Client-IP");
 			result3 = "Proxy-Client-IP:" + ip;
-			System.out.println(result3);
+// 			System.out.println(result3);
 		}
 
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getHeader("WL-Proxy-Client-IP");
 			result4 = "WL-Proxy-Client-IP:" + ip;
-			System.out.println(result4);
+// 			System.out.println(result4);
 		}
 		if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
 			ip = request.getRemoteAddr();
 			result5 = "Remote:" + ip;
-			System.out.println(result5);
+// 			System.out.println(result5);
 		}
 		result6 = ip.equals("0:0:0:0:0:0:0:1") ? "127.0.0.1" : ip;
-		System.out.println(result6);
-		System.out.println("RemoteAddr--》"+request.getRemoteAddr());
+// 		System.out.println(result6);
+// 		System.out.println("RemoteAddr--》"+request.getRemoteAddr());
+		
+		HttpSession  s=request.getSession();
+		
+		System.out.println("SessionID="+s.hashCode());
+		
 	%>
 <!-- 	result1 = -->
 <%-- 	<%=result1%> --%>
@@ -146,5 +152,6 @@
 		查询(结果返回json)<input type="submit" value="查询">
 	</form>
 	<br>
+	<a href="index1.jsp">验证码错误</a>
 </body>
 </html>

@@ -1,0 +1,145 @@
+@charset "utf-8";
+/* CSS Document */
+*,html,body,ul,li,table,tr,td,p,a,dl,dt,dd,input{
+	padding:0px;
+	margin:0px;
+}
+body{
+	padding:0px;
+	margin:0px;
+	font-size:12px;
+	color:#3c3c3c;
+	line-height:180%;
+	font-family: "Microsoft YaHei","Helvetica","Arial","sans-serif" !important;
+/* 	 background:#efeff5 !important; */
+	min-width:1200px;
+}
+
+a{
+	text-decoration:none;
+}
+img, select, button{
+	vertical-align:middle;
+}
+img{
+	border:none;
+}
+.c-wrapper {
+	width: 100%;
+	height:100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.sign_bg{
+	width:100%;
+	height:100%;
+	background:url(/js/sign_bg.jpg) no-repeat center top;
+	background-size:100% 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border: 0px solid green;
+    position:fixed;
+}
+.sign{
+	width:400px;
+	color:#fff;
+	float:center;
+	background:#000;
+	filter:Alpha(opacity=80);
+	background:rgba(0,0,0,0.6);
+	padding:30px 10px 50px 10px;
+	border-radius:3px;
+	border:3px solid #4c596e;
+	border:3px solid rgba(255,255,255,0.3);
+	box-shadow:3px 3px 5px rgba(0,0,0,0.3);
+}
+.sign .title{
+	font-size:26px;
+	white-space:10px;
+	font-family:"微软雅黑";
+	text-align:center;
+	margin-top:20px;
+}
+.sign .text{
+	width:100%;
+	margin-top:30px;
+	margin-left:35px;
+	margin-right:35px;
+	position:relative;
+}
+.sign .text .input input {
+	padding:9px 3px; 
+	margin:0; 
+	height:14px;
+	line-height:14px;
+	width:280px;
+	margin-bottom:18px;
+	color:#3c3c3;
+	line-height:20px;
+	border:1px solid #eee;
+	border-radius:4px;
+}
+.sign .text .input .in1{
+	background: #fff url(/js/icon-user.png) no-repeat 2% center;
+	padding-left:40px;
+}
+.sign .text .input .in2{
+	background: #fff url(/js/icon-key.gif) no-repeat 2% center;
+	padding-left:40px;
+}
+
+.sign .text .input .in3{
+	background: #fff url(/js/verifcode.png) no-repeat 2% center; 
+	padding-left:40px;
+	width:30%;
+/* 	background-size:4% 8px; */
+}
+
+.sign .text .input .in3,.im1,.im2{
+	display:inline;
+}
+.sign .text .input .im1{
+	width:4%;
+}
+.sign .text .input .im2{
+	width:5%;
+}
+.sign .text .r{
+	box-shadow:2px 2px 3px rgba(0,0,0,.7);
+	width:325px;
+	height:40px;
+	border:none;
+	font-size:18px;
+	color:#fff;
+	font-family: "Microsoft YaHei";
+	background:#e10979;
+	margin-top:18px;
+	border:none;
+    cursor: pointer;
+    border-radius:4px;
+    text-align:center;
+	position:relative;
+}
+.sign .text .r .input2{
+	position:absolute;
+	height:30px;
+	line-height:30px;
+	z-indent:2;
+	top:3px;
+}
+.sign .text .r .input2 .bt{
+	width:325px;
+	height:40px;
+	font-size:18px;
+	color:#fff;
+	font-family: "Microsoft YaHei";
+	background:#e10979;
+	border:none;
+    cursor: pointer;
+    border-radius:4px;
+}
+.sign .text .r .im3{
+	position:relative;
+}

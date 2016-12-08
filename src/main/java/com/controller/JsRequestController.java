@@ -125,5 +125,18 @@ public class JsRequestController {
 		model.addAttribute("str", str);
 		return "fastJson";
 	}
-	
+	public static void main(String[] arges){
+		Student student=new Student();
+        student.setId(74);
+        student.setName("丁晨星宇");
+		student.setAge(25);
+		
+		Message m=new Message();
+		m.setPhone("123456789");
+		m.setAddress("北京市海淀区中钢大厦");
+		student.setMessage(m);
+		
+		String str = JSON.toJSONString(student);
+		System.out.println(str);
+	}
 }
