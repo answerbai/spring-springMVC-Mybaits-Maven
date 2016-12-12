@@ -37,7 +37,7 @@ class DefaultSqlJob extends SqlJob {
 				"' and log_version='" + argsConf.get("log_version") + 
 //				"' and log_time='" + argsConf.get("log_time") + 
 //				"' and visitor_ip='" + argsConf.get("visitor_ip") + 
-				"' group by dt,log_version,log_time,visitor_ip,ad_cast_id limit 3;";
+				"' group by log_version,log_time,visitor_ip,ad_cast_id limit 3;";
 		System.out.println(sql);
 		return sql;
 	}
