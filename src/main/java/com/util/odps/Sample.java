@@ -15,19 +15,18 @@ import com.aliyun.odps.tunnel.TableTunnel;
 import com.aliyun.odps.tunnel.TableTunnel.DownloadSession;
 import com.aliyun.odps.tunnel.TunnelException;
 
-
 public class Sample {
 
 	private static String accessID = "LTAIFrUDfktMojoH";
 	private static String accessKey = "yhSRmoHWZRxbCxr1oQ17jVpJjoS5Ul";
-//	private static String accessID = "LTAI4JzvNwzg1XNx";
-//    private static String accessKey = "Jm2ew84AemnWvoE8KpkKSDTMxltxZp";
+	// private static String accessID = "LTAI4JzvNwzg1XNx";
+	// private static String accessKey = "Jm2ew84AemnWvoE8KpkKSDTMxltxZp";
 	private static String odpsURL = "http://service-corp.odps.aliyun-inc.com/api";
 	private static String tunnelURL = "http://dt-corp.odps.aliyun-inc.com";
-	
+
 	private static String project = "ytad";
-	private static String partition = "ad_type=yvalf,dt=20161205";
-	private static String table = "ods_atm_show_invideo_d";
+	private static String partition = "ad_type=yvalf,dt=20161210";
+	private static String table = "ods_atm_access_invideo_d";
 
 	public static void main(String args[]) {
 		Account account = new AliyunAccount(accessID, accessKey);
@@ -37,10 +36,10 @@ public class Sample {
 
 		TableTunnel tunnel = new TableTunnel(odps);
 		tunnel.setEndpoint(tunnelURL);
-		 PartitionSpec partitionSpec = new PartitionSpec(partition);
-		 
+		PartitionSpec partitionSpec = new PartitionSpec(partition);
+
 		try {
-			DownloadSession downloadSession = tunnel.createDownloadSession(project, table,partitionSpec);
+			DownloadSession downloadSession = tunnel.createDownloadSession(project, table, partitionSpec);
 			long count = downloadSession.getRecordCount();
 			RecordReader recordReader = downloadSession.openRecordReader(0, count);
 			Record record;
@@ -48,12 +47,13 @@ public class Sample {
 			// UploadSession uploadSession = tunnel.createUploadSession(project,
 			// table2);
 			// RecordWriter recordWriter = uploadSession.openRecordWriter(0);
-
+			long sum = 0;
 			while ((record = recordReader.read()) != null) {
 				// recordWriter.write(record);
-				consumeRecord(record, downloadSession.getSchema());
+				sum++;
+//				consumeRecord(record, downloadSession.getSchema());
 			}
-
+			System.out.println("sum=" + sum);
 			recordReader.close();
 
 			// recordWriter.close();
